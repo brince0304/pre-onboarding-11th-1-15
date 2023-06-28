@@ -1,46 +1,44 @@
-# Getting Started with Create React App
+> AngularJS 커밋 컨벤션을 기반으로 따릅니다.
+>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## ****Commit Message Convention****
 
-## Available Scripts
+### 커밋 메세지의 기본 형식
 
-In the project directory, you can run:
+```jsx
+<type>(<scope>): <short summary>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
+```
 
-### `npm start`
+### 타입**에 들어갈 수 있는 항목들**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<aside>
+📌 docs : 문서 관련
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+style : 스타일 변경 (포매팅 수정, 들여쓰기 추가, …)
 
-### `npm test`
+refactor : 코드 리팩토링
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+test : 테스트 관련 코드
 
-### `npm run build`
+build : 빌드 관련 파일 수정
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ci : CI 설정 파일 수정
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+perf : 성능 개선
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+chore : 그 외 자잘한 수정
 
-### `npm run eject`
+</aside>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## **Reference**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+https://2mojurmoyang.tistory.com/178
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+[https://velog.io/@outstandingboy/Git-커밋-메시지-규약-정리-the-AngularJS-commit-conventions](https://velog.io/@outstandingboy/Git-%EC%BB%A4%EB%B0%8B-%EB%A9%94%EC%8B%9C%EC%A7%80-%EA%B7%9C%EC%95%BD-%EC%A0%95%EB%A6%AC-the-AngularJS-commit-conventions)
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit
