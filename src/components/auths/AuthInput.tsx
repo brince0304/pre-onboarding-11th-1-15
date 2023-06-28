@@ -26,6 +26,35 @@ export default function AuthInput() {
     const { name, value } = e.target
     setUserInput({ ...userInput, [name]: value })
   }
+
+  useEffect(() => {
+    const emailRegex = /@/
+    const checkPassword = userInput.password
+    if (!emailRegex.test(userInput.email)) {
+      setIsEmailValied({
+        msg: "@가 포함되어야 합니다.",
+        validation: false,
+      });
+    } else {
+      setIsEmailValied({
+        msg: '',
+        validation: true
+      })
+    }
+    if (checkPassword?.length < 8) {
+      setIsPasswordvalied({
+        msg: '8자 이상 입력해주세요',
+        validation: false
+      })
+    } else {
+      setIsPasswordvalied({
+        msg: '',
+        validation: true
+      })
+    }
+
+  }, [userInput])
+  
   return (
     <div>
       <input
@@ -40,6 +69,8 @@ export default function AuthInput() {
         data-testid="password-input"
         name="password"
       />
+       {userInput.email && !userInput.email.includes('@') && <p>{isEmailValied.msg}</p>}
+       {userInput.password && userInput.password.length < 8 && <p>{isPasswordValied.msg}</p>}
     </div>
   );
 }
