@@ -59,6 +59,11 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
     }
   };
 
+  const handleCancel = () => {
+    setIsOnEdit((prev) => !prev);
+    setEditTodoText(todo.todo);
+  };
+
   return (
     <li>
       <div>
@@ -93,7 +98,9 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
         {isOnEdit && (
           <>
             <button data-testid="submit-button">제출</button>
-            <button data-testid="cancel-button">취소</button>
+            <button data-testid="cancel-button" onClick={handleCancel}>
+              취소
+            </button>
           </>
         )}
       </div>
