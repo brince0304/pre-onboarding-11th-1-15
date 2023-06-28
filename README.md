@@ -1,7 +1,6 @@
 > AngularJS 커밋 컨벤션을 기반으로 따릅니다.
->
 
-## ****Commit Message Convention****
+## \***\*Commit Message Convention\*\***
 
 ### 커밋 메세지의 기본 형식
 
@@ -35,7 +34,6 @@ chore : 그 외 자잘한 수정
 </aside>
 
 ## **Reference**
-
 
 https://2mojurmoyang.tistory.com/178
 

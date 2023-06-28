@@ -12,10 +12,10 @@
     "no-unused-vars": "error" // 사용하지 않는 변수 금지
   },
   "settings": {
-  "import/resolver": {
-    "node": {
-      "paths": ["src"] //절대경로 설정
+    "import/resolver": {
+      "node": {
+        "paths": ["src"] //절대경로 설정
+      }
     }
   }
-}
 }
