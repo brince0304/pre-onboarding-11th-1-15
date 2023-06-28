@@ -59,6 +59,43 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
     }
   };
 
+  const handleUpdate = async (e: React.FormEvent, todoItem: ITodo) => {
+    e.preventDefault();
+
+    if (editTodoText === todoItem.todo) {
+      setIsOnEdit((prev) => !prev);
+      return;
+    }
+
+    const editedTodoItem = {
+      ...todoItem,
+      todo: editTodoText,
+    };
+
+    const access_token = localStorage.getItem('accessToken');
+
+    const response = await fetch(`${BASE_URL}/todos/${todoItem.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${access_token}`,
+      },
+      body: JSON.stringify(editedTodoItem),
+    });
+
+    if (response.ok) {
+      const resData = await response.json();
+
+      setTodos((todos) => todos.map((todo) => (todo.id === todoItem.id ? resData : todo)));
+      setIsOnEdit((prev) => !prev);
+    }
+
+    if (!response.ok) {
+      const resData = await response.json();
+      throw new Error(resData.message || '정상적으로 업데이트되지 않았습니다.');
+    }
+  };
+
   const handleCancel = () => {
     setIsOnEdit((prev) => !prev);
     setEditTodoText(todo.todo);
@@ -97,7 +134,9 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
         )}
         {isOnEdit && (
           <>
-            <button data-testid="submit-button">제출</button>
+            <button data-testid="submit-button" onClick={(e) => handleUpdate(e, todo)}>
+              제출
+            </button>
             <button data-testid="cancel-button" onClick={handleCancel}>
               취소
             </button>
