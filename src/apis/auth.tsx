@@ -7,10 +7,10 @@ interface AuthData {
 
 export async function signUp({ email, password }: AuthData) {
   const data = await client.post('auth/signup', { email, password });
-  return data;
+  return data.status === 201;
 }
 
 export async function signIn({ email, password }: AuthData) {
-  const data = await client.post('auth/signin', { email, password });
+  const { data } = await client.post('auth/signin', { email, password });
   return data;
 }
