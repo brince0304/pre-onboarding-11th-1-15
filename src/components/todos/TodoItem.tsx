@@ -40,6 +40,25 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
     }
   };
 
+  const handleDelete = async (todoItem: ITodo) => {
+    const access_token = localStorage.getItem('accessToken');
+
+    const response = await fetch(`${BASE_URL}/todos/${todoItem.id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    if (response.ok) {
+      setTodos((todos) => todos?.filter((todo) => todo.id !== todoItem.id));
+    }
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.message || '정상적으로 삭제되지 않았습니다.');
+    }
+  };
+
   return (
     <li>
       <div>
@@ -66,7 +85,9 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
             <button data-testid="modify-button" onClick={() => setIsOnEdit((prev) => !prev)}>
               수정
             </button>
-            <button data-testid="delete-button">삭제</button>
+            <button data-testid="delete-button" onClick={() => handleDelete(todo)}>
+              삭제
+            </button>
           </>
         )}
         {isOnEdit && (
