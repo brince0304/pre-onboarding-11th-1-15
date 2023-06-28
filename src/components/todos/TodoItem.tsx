@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ITodo } from 'interface/todoType';
+import axios from 'axios';
 
 interface TodoItemProps {
   todo: ITodo;
@@ -20,46 +21,42 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
 
     const access_Token = localStorage.getItem('accessToken');
 
-    const response = await fetch(`${BASE_URL}/todos/${todoItem.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${access_Token}`,
-      },
-      body: JSON.stringify(updatedTodoItem),
-    });
+    try {
+      const response = await axios.put(`${BASE_URL}/todos/${todoItem.id}`, updatedTodoItem, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${access_Token}`,
+        },
+      });
 
-    const data = await response.json();
-
-    if (response.ok) {
-      setTodos((todos) => todos?.map((todo) => (todo.id === todoItem.id ? data : todo)));
-    }
-
-    if (!response.ok) {
-      throw new Error(data.message || '업데이트에 문제가 발생했습니다.');
+      if (response.status === 200) {
+        setTodos((todos) => todos?.map((todo) => (todo.id === todoItem.id ? response.data : todo)));
+      }
+    } catch (error: any) {
+      throw new Error(error.response.data.message || '업데이트에 에러가 발생했습니다.');
     }
   };
 
   const handleDelete = async (todoItem: ITodo) => {
-    const access_token = localStorage.getItem('accessToken');
+    const access_Token = localStorage.getItem('accessToken');
 
-    const response = await fetch(`${BASE_URL}/todos/${todoItem.id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
+    try {
+      const response = await axios(`${BASE_URL}/todos/${todoItem.id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${access_Token}`,
+        },
+      });
 
-    if (response.ok) {
-      setTodos((todos) => todos?.filter((todo) => todo.id !== todoItem.id));
-    }
-    if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.message || '정상적으로 삭제되지 않았습니다.');
+      if (response.status === 200) {
+        setTodos((todos) => todos?.filter((todo) => todo.id !== todoItem.id));
+      }
+    } catch (error: any) {
+      throw new Error(error.response.data.message || '정상적으로 삭제되지 않았습니다.');
     }
   };
 
-  const handleUpdate = async (e: React.FormEvent, todoItem: ITodo) => {
+  const handleUpdate = async (e: React.FormEvent<HTMLButtonElement>, todoItem: ITodo) => {
     e.preventDefault();
 
     if (editTodoText === todoItem.todo) {
@@ -74,25 +71,19 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
 
     const access_token = localStorage.getItem('accessToken');
 
-    const response = await fetch(`${BASE_URL}/todos/${todoItem.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${access_token}`,
-      },
-      body: JSON.stringify(editedTodoItem),
-    });
+    try {
+      const response = await axios.put(`${BASE_URL}/todos/${todoItem.id}`, editedTodoItem, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
 
-    if (response.ok) {
-      const resData = await response.json();
-
-      setTodos((todos) => todos.map((todo) => (todo.id === todoItem.id ? resData : todo)));
-      setIsOnEdit((prev) => !prev);
-    }
-
-    if (!response.ok) {
-      const resData = await response.json();
-      throw new Error(resData.message || '정상적으로 업데이트되지 않았습니다.');
+      if (response.status === 200) {
+        setTodos((todos) => todos.map((todo) => (todo.id === todoItem.id ? response.data : todo)));
+      }
+    } catch (error: any) {
+      throw new Error(error.response.data.message || '정상적으로 업데이트되지 않았습니다.');
     }
   };
 
