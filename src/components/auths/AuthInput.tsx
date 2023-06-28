@@ -23,54 +23,43 @@ export default function AuthInput() {
   });
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setUserInput({ ...userInput, [name]: value })
-  }
+    const { name, value } = e.target;
+    setUserInput({ ...userInput, [name]: value });
+  };
 
   useEffect(() => {
-    const emailRegex = /@/
-    const checkPassword = userInput.password
+    const emailRegex = /@/;
+    const checkPassword = userInput.password;
     if (!emailRegex.test(userInput.email)) {
       setIsEmailValied({
-        msg: "@가 포함되어야 합니다.",
+        msg: '@가 포함되어야 합니다.',
         validation: false,
       });
     } else {
       setIsEmailValied({
         msg: '',
-        validation: true
-      })
+        validation: true,
+      });
     }
     if (checkPassword?.length < 8) {
       setIsPasswordvalied({
         msg: '8자 이상 입력해주세요',
-        validation: false
-      })
+        validation: false,
+      });
     } else {
       setIsPasswordvalied({
         msg: '',
-        validation: true
-      })
+        validation: true,
+      });
     }
+  }, [userInput]);
 
-  }, [userInput])
-  
   return (
     <div>
-      <input
-        value={userInput.email}
-        onChange={onChangeHandler}
-        data-testid="email-input"
-        name="email"
-      />
-      <input
-        value={userInput.password}
-        onChange={onChangeHandler}
-        data-testid="password-input"
-        name="password"
-      />
-       {userInput.email && !userInput.email.includes('@') && <p>{isEmailValied.msg}</p>}
-       {userInput.password && userInput.password.length < 8 && <p>{isPasswordValied.msg}</p>}
+      <input value={userInput.email} onChange={onChangeHandler} data-testid="email-input" name="email" />
+      <input value={userInput.password} onChange={onChangeHandler} data-testid="password-input" name="password" />
+      {userInput.email && !userInput.email.includes('@') && <p>{isEmailValied.msg}</p>}
+      {userInput.password && userInput.password.length < 8 && <p>{isPasswordValied.msg}</p>}
     </div>
   );
 }
