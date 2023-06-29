@@ -25,7 +25,9 @@ const Input = (props: IInputProps) => {
 
   return (
     <S.InputWrap>
-      <S.Input {...props} ref={ref} />
+      <S.Input {...props} ref={ref}
+               data-testid={props.dataTestId}
+      />
       <S.HelperText error={error} color={error ? 'red' : 'grey'}>
         {error ? errorText : helperText}
       </S.HelperText>
