@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { ITodo } from 'interface/todoType';
 import { getTodos } from 'apis/todo';
-// import TodoInput from 'components/todos/TodoInput';
-// import TodoList from 'components/todos/TodoList;
+import TodoList from 'components/todos/TodoList';
 
 const Todo = () => {
   // eslint-disable-next-line no-unused-vars
@@ -43,7 +42,7 @@ const Todo = () => {
   return (
     <>
       {/* <TodoInput getTodoList={getTodoList} /> */}
-      {/* <TodoList todos={todos} setTodos={setTodos} /> */}
+      <TodoList todos={todos} setTodos={setTodos} />
     </>
   );
 };
