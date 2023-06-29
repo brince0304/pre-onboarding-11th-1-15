@@ -1,12 +1,12 @@
 import client from './client';
 
-interface IPostAuth {
+export interface IPostAuth {
   email: string;
   password: string;
 }
 
 interface IAuth {
-  token: string;
+  access_token: string;
 }
 
 export async function signUp({ email, password }: IPostAuth): Promise<boolean> {
