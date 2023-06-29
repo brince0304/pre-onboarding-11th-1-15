@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { ITodo } from 'interface/todoType';
 import { updateTodo, deleteTodo } from 'apis/todo';
+import { IInputProps } from '../common/Input';
+import TodoInput from './TodoInput';
+import useInput from 'hooks/useInput';
 
 interface TodoItemProps {
   todo: ITodo;
@@ -10,6 +13,28 @@ interface TodoItemProps {
 const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
   const [isOnEdit, setIsOnEdit] = useState<boolean>(false);
   const [editTodoText, setEditTodoText] = useState<string>(todo.todo);
+
+  const regex = /^.{1,}$/;
+  const [onChange, value, isValidated, setValue, setIsValidated] = useInput({
+    regex,
+    initialValue: editTodoText,
+  });
+  const [isLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [errorText, setErrorText] = useState<string>('한글자 이상 입력해주세요');
+
+  const InputProps = {
+    value: editTodoText || value,
+    onChange,
+    errorText,
+    error: isError,
+    type: 'text',
+    dataTestId: 'modify-input',
+    placeholder: '할일을 적어보세요!',
+    width: '100%',
+    height: '50px',
+    disabled: isLoading,
+  } as IInputProps;
 
   const handleDelete = async (todoItem: ITodo) => {
     const res = await deleteTodo(todoItem.id);
@@ -25,19 +50,27 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
   ) => {
     e.preventDefault();
 
-    if (editTodoText === todoItem.todo) {
-      setIsOnEdit((prev) => !prev);
-      return;
+    if (isValidated) {
+      if (editTodoText === todoItem.todo) {
+        setIsOnEdit((prev) => !prev);
+        return;
+      }
+
+      const editedTodoItem = {
+        id: todoItem.id.toString(),
+        todo: editTodoText,
+        isCompleted: todoItem.isCompleted,
+      };
+
+      const resUpdatedTodo = await updateTodo(editedTodoItem);
+      setTodos((todos) => todos.map((todo) => (todo.id === todoItem.id ? resUpdatedTodo : todo)));
+
+      setValue('');
+      setIsValidated(false);
+    } else {
+      setIsError(true);
+      setErrorText('한 글자 이상 입력해주세요');
     }
-
-    const editedTodoItem = {
-      id: todoItem.id.toString(),
-      todo: editTodoText,
-      isCompleted: todoItem.isCompleted,
-    };
-
-    const resUpdatedTodo = await updateTodo(editedTodoItem);
-    setTodos((todos) => todos.map((todo) => (todo.id === todoItem.id ? resUpdatedTodo : todo)));
   };
 
   const handleCancel = () => {
@@ -55,16 +88,7 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
             checked={todo.isCompleted}
             onChange={(e) => handleUpdate(e, todo)}
           />
-          {!isOnEdit ? (
-            <span>{todo.todo}</span>
-          ) : (
-            <input
-              data-testid="modify-input"
-              type="text"
-              value={editTodoText}
-              onChange={(e) => setEditTodoText(e.target.value)}
-            />
-          )}
+          {!isOnEdit ? <span>{todo.todo}</span> : <TodoInput {...InputProps} />}
         </label>
         {!isOnEdit && (
           <>
@@ -78,7 +102,7 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
         )}
         {isOnEdit && (
           <>
-            <button data-testid="submit-button" onClick={(e) => handleUpdate(e, todo)}>
+            <button data-testid="submit-button" onClick={(e) => handleUpdate(e, todo)} disabled={!isValidated}>
               제출
             </button>
             <button data-testid="cancel-button" onClick={handleCancel}>
