@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ITodo } from 'interface/todoType';
 import { updateTodo, deleteTodo } from 'apis/todo';
 import Button from 'components/common/Button';
+import * as S from './TodoItem.style';
 
 interface TodoItemProps {
   todo: ITodo;
@@ -47,9 +48,9 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
   };
 
   return (
-    <li>
-      <div>
-        <label>
+    <S.Item>
+      <S.Wrapper>
+        <S.Label>
           <input
             type="checkbox"
             id={todo.id.toString()}
@@ -66,7 +67,7 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
               onChange={(e) => setEditTodoText(e.target.value)}
             />
           )}
-        </label>
+        </S.Label>
         {!isOnEdit && (
           <>
             <Button size="medium" data-testid="modify-button" onClick={() => setIsOnEdit((prev) => !prev)}>
@@ -87,8 +88,8 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
             </Button>
           </>
         )}
-      </div>
-    </li>
+      </S.Wrapper>
+    </S.Item>
   );
 };
 
