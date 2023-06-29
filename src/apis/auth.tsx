@@ -6,7 +6,7 @@ interface IPostAuth {
 }
 
 interface IAuth {
-  token: string;
+  access_token: string;
 }
 
 export async function signUp({ email, password }: IPostAuth): Promise<boolean> {
