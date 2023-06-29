@@ -1,6 +1,6 @@
 import client from './client';
 
-interface IPostAuth {
+export interface IPostAuth {
   email: string;
   password: string;
 }

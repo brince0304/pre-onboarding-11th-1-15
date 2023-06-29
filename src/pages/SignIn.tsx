@@ -1,11 +1,11 @@
-import { signIn } from 'apis/auth';
+import { IPostAuth, signIn } from 'apis/auth';
 import axios from 'axios';
 
 function SignIn() {
-  async function signInHandler() {
+  async function signInHandler(authData: IPostAuth) {
     try {
       // TODO : email, password input값 넣기
-      const data = await signIn({ email: 'email', password: 'password' });
+      const data = await signIn(authData);
       const { access_token } = data;
 
       //로컬스토리지 저장
@@ -20,7 +20,7 @@ function SignIn() {
     }
   }
 
-  return <button onClick={signInHandler}>Signin</button>;
+  return <button onClick={() => signInHandler}>Signin</button>;
 }
 
 export default SignIn;

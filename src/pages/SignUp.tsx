@@ -1,11 +1,11 @@
-import { signUp } from 'apis/auth';
+import { IPostAuth, signUp } from 'apis/auth';
 import axios from 'axios';
 
 function SignUp() {
-  async function signUpHandler() {
+  async function signUpHandler(authData: IPostAuth) {
     try {
       // TODO : email, password input값 넣기
-      const data = await signUp({ email: 'email', password: 'password' });
+      const data = await signUp(authData);
       if (data) {
         alert('회원가입 완료!');
         //TODO : 로그인 페이지로 이동
@@ -17,7 +17,7 @@ function SignUp() {
       }
     }
   }
-  return <button onClick={signUpHandler}>signUp</button>;
+  return <button onClick={() => signUpHandler}>signUp</button>;
 }
 
 export default SignUp;
