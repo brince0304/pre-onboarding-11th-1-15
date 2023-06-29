@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router';
 import { ITodo } from 'interface/todoType';
 import { getTodos } from 'apis/todo';
 // import TodoInput from 'components/todos/TodoInput';
-// import TodoInput from 'components/todos/TodoList;
-import TodoList from 'components/todos/TEST_TodoList';
+// import TodoList from 'components/todos/TodoList;
 
 const Todo = () => {
   const [todos, setTodos] = useState<ITodo[]>([]);
@@ -43,7 +42,7 @@ const Todo = () => {
   return (
     <>
       {/* <TodoInput getTodoList={getTodoList} /> */}
-      <TodoList todos={todos} setTodos={setTodos} />
+      {/* <TodoList todos={todos} setTodos={setTodos} /> */}
     </>
   );
 };
