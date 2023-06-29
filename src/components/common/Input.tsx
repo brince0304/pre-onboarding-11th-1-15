@@ -1,4 +1,4 @@
-import {ForwardedRef, forwardRef, HTMLProps} from "react";
+import { ForwardedRef, forwardRef, HTMLProps } from 'react';
 import * as S from './Input.style';
 
 export interface IInputProps extends Omit<HTMLProps<HTMLInputElement>, 'ref'> {

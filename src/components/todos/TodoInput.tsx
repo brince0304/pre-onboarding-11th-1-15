@@ -1,4 +1,4 @@
-import {FormEvent, useEffect, useRef, useState} from "react";
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import useInput from 'hooks/useInput';
 import Input, { IInputProps } from '../common/Input';
 import * as S from './TodoInput.style';
@@ -8,7 +8,10 @@ import { createTodo } from '../../apis/todo';
 const TodoInput = () => {
   const regex = /^.{1,}$/;
   const inputRef = useRef<HTMLInputElement>(null);
-  const { onChange, value, setValue, isValidated, setIsValidated,setFocus } = useInput({ regex: regex,ref:inputRef });
+  const { onChange, value, setValue, isValidated, setIsValidated, setFocus } = useInput({
+    regex: regex,
+    ref: inputRef,
+  });
   const [isLoading] = useState<boolean>(false);
   const [isError, setError] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>('한글자 이상 입력해주세요.');
