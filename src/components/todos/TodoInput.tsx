@@ -17,7 +17,8 @@ const TodoInput = () => {
     error: isError,
     placeholder: '할일을 적어보세요!',
     dataTestId: 'new-todo-input',
-    fullWidth: true,
+    width: '100%',
+    height: '50px',
     disabled: isLoading,
     type: 'text',
   } as IInputProps;

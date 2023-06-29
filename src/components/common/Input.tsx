@@ -1,36 +1,18 @@
-import { ChangeEvent, useEffect, useRef } from 'react';
+import { HTMLProps, useEffect, useRef } from 'react';
 import * as S from './Input.style';
 
-export interface IInputProps {
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+export interface IInputProps extends HTMLProps<HTMLInputElement> {
   helperText?: string;
   error?: boolean;
   errorText?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  type?: string;
   fullWidth?: boolean;
-  autoFocus?: boolean;
-  dataTestId: string;
-  defaultValue?: string;
+  dataTestId?: string;
+  width?: string;
+  height?: string;
 }
 
 const Input = (props: IInputProps) => {
-  const {
-    value,
-    defaultValue,
-    onChange,
-    helperText,
-    error,
-    errorText,
-    placeholder,
-    disabled,
-    type,
-    fullWidth,
-    autoFocus,
-    dataTestId,
-  } = props;
+  const { helperText, error, errorText } = props;
 
   const ref = useRef<HTMLInputElement>(null);
 
@@ -43,23 +25,11 @@ const Input = (props: IInputProps) => {
 
   return (
     <S.InputWrap>
-      <S.Input
-        ref={ref}
-        data-testid={dataTestId}
-        value={value}
-        defaultValue={defaultValue}
-        onChange={onChange}
-        disabled={disabled}
-        type={type}
-        placeholder={placeholder}
-        autoFocus={autoFocus}
-        fullWidth={fullWidth}
-      />
+      <S.Input {...props} ref={ref} />
       <S.HelperText error={error} color={error ? 'red' : 'grey'}>
         {error ? errorText : helperText}
       </S.HelperText>
     </S.InputWrap>
   );
 };
-
 export default Input;
