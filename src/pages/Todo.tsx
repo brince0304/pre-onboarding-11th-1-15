@@ -25,6 +25,26 @@ const Todo = () => {
     getRes();
   }, [navigate]);
 
+  // todo 페이지 진입 상태에서 토큰이 소실될 경우 브라우저 객체에서 인식하여 바로 리다이렉트 처리
+  useEffect(() => {
+    const checkStorageToken = (e: StorageEvent) => {
+      if (e.key === 'accessToken') {
+        if (!e.newValue) {
+          navigate('/signin');
+          return;
+        }
+        return;
+      }
+      return;
+    };
+
+    window.addEventListener('storage', checkStorageToken);
+
+    return () => {
+      window.removeEventListener('storage', checkStorageToken);
+    };
+  }, [navigate]);
+
   return (
     <>
       <TodoInput />
