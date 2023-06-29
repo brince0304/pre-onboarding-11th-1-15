@@ -66,7 +66,6 @@ const AuthInput = (props: { mode: 'signIn' | 'signUp' }) => {
           }
         })
         .catch((e) => {
-          console.log(e);
           if (e.response.status === 404) {
             setUnAuthorizedError();
           } else if (e.response.status === 401) {
@@ -82,7 +81,6 @@ const AuthInput = (props: { mode: 'signIn' | 'signUp' }) => {
           }
         })
         .catch((e) => {
-          console.log(e);
           if (e.response.status === 409) {
             setExistUserError();
           }
