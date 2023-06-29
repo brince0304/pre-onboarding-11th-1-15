@@ -8,7 +8,7 @@ import { createTodo } from '../../apis/todo';
 const TodoInput = () => {
   const regex = /^.{1,}$/;
   const inputRef = useRef<HTMLInputElement>(null);
-  const {onChange, value, setValue, isValidated, setIsValidated, setFocus} = useInput({
+  const { onChange, value, setValue, isValidated, setIsValidated, setFocus } = useInput({
     regex: regex,
     ref: inputRef,
   });
