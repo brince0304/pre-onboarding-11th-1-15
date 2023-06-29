@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ITodo } from 'interface/todoType';
 import { updateTodo, deleteTodo } from 'apis/todo';
+import Button from 'components/common/Button';
 
 interface TodoItemProps {
   todo: ITodo;
@@ -68,22 +69,22 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
         </label>
         {!isOnEdit && (
           <>
-            <button data-testid="modify-button" onClick={() => setIsOnEdit((prev) => !prev)}>
+            <Button size="medium" data-testid="modify-button" onClick={() => setIsOnEdit((prev) => !prev)}>
               수정
-            </button>
-            <button data-testid="delete-button" onClick={() => handleDelete(todo)}>
+            </Button>
+            <Button size="medium" data-testid="delete-button" onClick={() => handleDelete(todo)}>
               삭제
-            </button>
+            </Button>
           </>
         )}
         {isOnEdit && (
           <>
-            <button data-testid="submit-button" onClick={(e) => handleUpdate(e, todo)}>
+            <Button size="medium" data-testid="submit-button" onClick={(e) => handleUpdate(e, todo)}>
               제출
-            </button>
-            <button data-testid="cancel-button" onClick={handleCancel}>
+            </Button>
+            <Button size="medium" data-testid="cancel-button" onClick={handleCancel}>
               취소
-            </button>
+            </Button>
           </>
         )}
       </div>
