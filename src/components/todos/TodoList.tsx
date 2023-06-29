@@ -6,7 +6,7 @@ interface TodoItemProps {
   todos: ITodo[];
   setTodos: React.Dispatch<React.SetStateAction<ITodo[]>>;
 }
-const TodoList = ({todos, setTodos} : TodoItemProps) => {
+const TodoList = ({ todos, setTodos }: TodoItemProps) => {
   return (
     <ul>
       {todos.map((data: ITodo) => (
