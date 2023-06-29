@@ -1,34 +1,34 @@
 import client from './client';
 
-interface UpdateTodoData {
+interface IUpdateTodo {
   id: string;
   todo: string;
   isCompleted: boolean;
 }
 
-export interface TodoData {
+export interface ITodo {
   id: number;
   todo: string;
   isCompleted: boolean;
   userId: number;
 }
 
-export async function createTodo(todo: string) {
+export async function createTodo(todo: string): Promise<ITodo> {
   const { data } = await client.post('todos', { todo });
-  return data as TodoData;
+  return data;
 }
 
-export async function getTodos() {
+export async function getTodos(): Promise<ITodo[]> {
   const { data } = await client.get('todos');
-  return data as TodoData[];
+  return data;
 }
 
-export async function updateTodo({ id, todo, isCompleted }: UpdateTodoData) {
+export async function updateTodo({ id, todo, isCompleted }: IUpdateTodo): Promise<ITodo> {
   const { data } = await client.put(`todos/${id}`, { todo, isCompleted });
-  return data as TodoData;
+  return data;
 }
 
-export async function deleteTodo(id: number) {
+export async function deleteTodo(id: number): Promise<boolean> {
   const data = await client.delete(`todos/${id}`);
   return data.status === 204;
 }
