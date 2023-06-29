@@ -1,4 +1,4 @@
-import { forwardRef, HTMLProps, useEffect, useRef } from 'react';
+import {ForwardedRef, forwardRef, HTMLProps} from "react";
 import * as S from './Input.style';
 
 export interface IInputProps extends Omit<HTMLProps<HTMLInputElement>, 'ref'> {
@@ -12,14 +12,8 @@ export interface IInputProps extends Omit<HTMLProps<HTMLInputElement>, 'ref'> {
 }
 
 //TODO: 부모 컴포넌트에서 ref 받아오도록 구현해야함
-const Input = forwardRef<HTMLInputElement>((props: IInputProps) => {
+const Input = forwardRef((props: IInputProps, ref: ForwardedRef<HTMLInputElement>) => {
   const { helperText, error, errorText } = props;
-  const ref = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    if (error) {
-      ref?.current?.focus();
-    }
-  }, [error]);
 
   return (
     <S.InputWrap>

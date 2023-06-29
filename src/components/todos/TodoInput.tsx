@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import {FormEvent, useEffect, useRef, useState} from "react";
 import useInput from 'hooks/useInput';
 import Input, { IInputProps } from '../common/Input';
 import * as S from './TodoInput.style';
@@ -7,11 +7,11 @@ import { createTodo } from '../../apis/todo';
 
 const TodoInput = () => {
   const regex = /^.{1,}$/;
-  const { onChange, value, setValue, isValidated, setIsValidated } = useInput({ regex: regex });
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { onChange, value, setValue, isValidated, setIsValidated,setFocus } = useInput({ regex: regex,ref:inputRef });
   const [isLoading] = useState<boolean>(false);
   const [isError, setError] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string>('한글자 이상 입력해주세요.');
-
   const InputProps = {
     value,
     onChange,
@@ -36,6 +36,7 @@ const TodoInput = () => {
           setError(true);
           setErrorText('에러가 발생하였습니다.');
           setIsValidated(false);
+          setFocus();
         });
     } else {
       setError(true);
@@ -51,7 +52,7 @@ const TodoInput = () => {
 
   return (
     <S.TodoInputForm onSubmit={onSubmit}>
-      <Input {...InputProps} />
+      <Input {...InputProps} ref={inputRef} />
       <Button size={'medium'} name={'추가'} data-testid="new-todo-add-button" type="submit" disabled={!isValidated} />
     </S.TodoInputForm>
   );
