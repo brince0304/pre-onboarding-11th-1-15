@@ -1,7 +1,7 @@
-import { HTMLProps, useEffect, useRef } from 'react';
+import { ForwardedRef, forwardRef, HTMLProps } from 'react';
 import * as S from './Input.style';
 
-export interface IInputProps extends HTMLProps<HTMLInputElement> {
+export interface IInputProps extends Omit<HTMLProps<HTMLInputElement>, 'ref'> {
   helperText?: string;
   error?: boolean;
   errorText?: string;
@@ -11,27 +11,17 @@ export interface IInputProps extends HTMLProps<HTMLInputElement> {
   height?: string;
 }
 
-const Input = (props: IInputProps) => {
+//TODO: 부모 컴포넌트에서 ref 받아오도록 구현해야함
+const Input = forwardRef((props: IInputProps, ref: ForwardedRef<HTMLInputElement>) => {
   const { helperText, error, errorText } = props;
-
-  const ref = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    //오류시에 자동으로 포커스되도록 구현했습니다.
-    if (error) {
-      ref.current?.focus();
-    }
-  }, [error]);
 
   return (
     <S.InputWrap>
-      <S.Input {...props} ref={ref}
-               data-testid={props.dataTestId}
-      />
+      <S.Input {...props} ref={ref} data-testid={props.dataTestId} />
       <S.HelperText error={error} color={error ? 'red' : 'grey'}>
         {error ? errorText : helperText}
       </S.HelperText>
     </S.InputWrap>
   );
-};
+});
 export default Input;
