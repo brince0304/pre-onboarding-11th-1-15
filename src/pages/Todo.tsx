@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { ITodo } from 'interface/todoType';
 import { getTodos } from 'apis/todo';
-import TodoInput from 'components/todos/TodoInput';
+// import TodoInput from 'components/todos/TodoInput';
 
 const Todo = () => {
   const [todos, setTodos] = useState<ITodo[]>([]);
 
   const navigate = useNavigate();
 
-  const getRes: () => Promise<void> = async () => {
+  const getTodoList: () => Promise<void> = async () => {
     const data = await getTodos();
     setTodos(data);
   };
@@ -22,7 +22,7 @@ const Todo = () => {
       return;
     }
 
-    getRes();
+    getTodoList();
   }, [navigate]);
 
   // todo 페이지 진입 상태에서 토큰이 소실될 경우 브라우저 객체에서 인식하여 바로 리다이렉트 처리
@@ -47,7 +47,7 @@ const Todo = () => {
 
   return (
     <>
-      <TodoInput />
+      {/* <TodoInput getTodoList={getTodoList} /> */}
       <ul>
         {todos?.map((todo) => (
           // <TodoList key={todo.id} />
