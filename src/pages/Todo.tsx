@@ -6,6 +6,7 @@ import { getTodos } from 'apis/todo';
 // import TodoList from 'components/todos/TodoList;
 
 const Todo = () => {
+  // eslint-disable-next-line no-unused-vars
   const [todos, setTodos] = useState<ITodo[]>([]);
 
   const navigate = useNavigate();
