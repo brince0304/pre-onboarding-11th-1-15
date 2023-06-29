@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
   const token = localStorage.getItem('token');
@@ -14,8 +14,10 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 };
 
 const onErrorResponse = (error: AxiosError): Promise<AxiosError> => {
-  if (error.response?.status === 401) {
-    localStorage.removeItem('token');
+  if (axios.isAxiosError(error)) {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+    }
   }
 
   return Promise.reject(error);
