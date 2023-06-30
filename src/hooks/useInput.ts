@@ -1,6 +1,6 @@
 import React, { RefObject, useState } from 'react';
 
-interface IUseInputReturn <T> {
+interface IUseInputReturn<T> {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   value: T;
   setValue: React.Dispatch<React.SetStateAction<T>>;
@@ -10,13 +10,13 @@ interface IUseInputReturn <T> {
   setBlur: () => void;
 }
 
-const useInput = <T,> (options: {
+const useInput = <T>(options: {
   regex: RegExp;
   ref: RefObject<HTMLInputElement>;
-  initialValue?: T
+  initialValue?: T;
 }): IUseInputReturn<T> => {
   const { regex } = options || {};
-  const [value, setValue] = useState<T>(options.initialValue as T ?? '' as unknown as T);
+  const [value, setValue] = useState<T>((options.initialValue as T) ?? ('' as unknown as T));
   const [isValidated, setIsValidated] = useState<boolean>(false);
 
   const validateValue = (value: T) => {
