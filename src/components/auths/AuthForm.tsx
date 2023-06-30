@@ -3,6 +3,7 @@ import Button from 'components/common/Button';
 import Input from 'components/common/Input';
 import useInput from 'hooks/useInput';
 import { signIn, signUp } from 'apis/auth';
+import { useNavigate } from 'react-router';
 
 interface IUser {
   email: string;
@@ -49,6 +50,8 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
   const buttonLabel = props.mode === 'signUp' ? '회원가입' : '로그인';
   const buttonTestId = props.mode === 'signUp' ? 'signup-button' : 'signin-button';
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     SetUser({
       email: email,
@@ -73,7 +76,7 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
         .then((res) => {
           if (res.access_token) {
             localStorage.setItem('token', res.access_token);
-            //TODO 로 navigate
+            navigate('/todo');
             setIsLoading(false);
             alert('로그인 되었습니다.');
           }
