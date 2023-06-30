@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from 'components/common/Button';
 import Input from 'components/common/Input';
 import useInput from 'hooks/useInput';
@@ -13,8 +13,9 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
   const [isEmailError, setIsEmailError] = useState<boolean>(false);
   const [emailErrorText, setEmailErrorText] = useState<string>('');
   const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
+  const [passwordErrorText, setPasswordErrorText] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const emailRef = React.useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const emailRegex = /@/;
   const {
     onChange: emailOnChange,
@@ -22,24 +23,29 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
     isValidated: emailIsValidated,
     setIsValidated: setEmailIsValidated,
     setFocus: setEmailFocus,
-  } = useInput({
+  } = useInput<string>({
     ref: emailRef,
     regex: emailRegex,
   });
-  const passwordRef = React.useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const passwordRegex = /.{8,}/;
   const {
     onChange: passwordOnChange,
     value: password,
     isValidated: passwordIsValided,
     setIsValidated: setPasswordIsValidated,
-  } = useInput({
+  } = useInput<string>({
     ref: passwordRef,
     regex: passwordRegex,
   });
+  const emailPasswordErrorText = '이메일 또는 비밀번호가 일치하지 않습니다.';
+  const emailRegexNotMatchErrorText = '이메일 형식이 올바르지 않습니다.';
+  const emailAlreadyExistErrorText = '이미 존재하는 이메일입니다.';
+  const passwordRegexNotMatchErrorText = '비밀번호는 8자 이상이어야 합니다.';
+  const emailInputError = (!emailIsValidated && email.length > 0) || isEmailError;
+  const passwordInputError = (!passwordIsValided && password.length > 0) || isPasswordError;
 
   const [user, SetUser] = useState<IUser>({ email: '', password: '' });
-
   const buttonLabel = props.mode === 'signUp' ? '회원가입' : '로그인';
   const buttonTestId = props.mode === 'signUp' ? 'signup-button' : 'signin-button';
 
@@ -51,6 +57,13 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
     setIsEmailError(false);
     setIsPasswordError(false);
   }, [email, password]);
+
+  useEffect(() => {
+    if (!isEmailError || !isPasswordError) {
+      setEmailErrorText(emailRegexNotMatchErrorText);
+      setPasswordErrorText(passwordRegexNotMatchErrorText);
+    }
+  }, [isEmailError, isPasswordError]);
 
   const authHandler = (mode: string, user: IUser) => {
     setIsLoading(true);
@@ -78,10 +91,11 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
         .then((res) => {
           if (res) {
             // sign-in 으로 navigate
+            setIsLoading(false);
           }
         })
         .catch((e) => {
-          if (e.response.status === 409) {
+          if (e.response.status === 400) {
             setExistUserError();
           }
           setIsLoading(false);
@@ -99,19 +113,21 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
   const setUnAuthorizedError = () => {
     setIsEmailError(true);
     setIsPasswordError(true);
-    setEmailErrorText('존재하지 않는 이메일이거나 비밀번호가 옳지 않습니다.');
-    setEmailFocus();
     setEmailIsValidated(true);
     setPasswordIsValidated(true);
+    setEmailErrorText(emailPasswordErrorText);
+    setPasswordErrorText(emailPasswordErrorText);
+    setEmailFocus();
   };
 
   const setExistUserError = () => {
     setIsEmailError(true);
     setIsPasswordError(true);
-    setEmailErrorText('이미 존재하는 이메일입니다.');
-    setEmailFocus();
     setEmailIsValidated(true);
     setPasswordIsValidated(true);
+    setEmailErrorText(emailAlreadyExistErrorText);
+    setPasswordErrorText('');
+    setEmailFocus();
   };
 
   return (
@@ -121,23 +137,26 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
         onChange={emailOnChange}
         data-testid="email-input"
         name="email"
-        error={isEmailError}
+        error={emailInputError}
         errorText={emailErrorText}
+        ref={emailRef}
       />
       <Input
         value={password}
         onChange={passwordOnChange}
         data-testid="password-input"
         name="password"
-        error={isPasswordError}
+        error={passwordInputError}
+        errorText={passwordErrorText}
         type="password"
+        ref={passwordRef}
       />
       <Button
         type="submit"
         size="large"
         name={buttonLabel}
         data-testid={buttonTestId}
-        disabled={isLoading || !emailIsValidated || !passwordIsValided}
+        disabled={isLoading || !emailIsValidated || !passwordIsValided || isEmailError || isPasswordError}
       />
     </form>
   );

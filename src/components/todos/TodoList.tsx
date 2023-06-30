@@ -4,13 +4,13 @@ import TodoItem from './TodoItem';
 
 interface TodoItemProps {
   todos: ITodo[];
-  setTodos: React.Dispatch<React.SetStateAction<ITodo[]>>;
+  getTodoList: () => Promise<void>;
 }
-const TodoList = ({ todos, setTodos }: TodoItemProps) => {
+const TodoList = ({ todos, getTodoList }: TodoItemProps) => {
   return (
     <ul>
       {todos.map((data: ITodo) => (
-        <TodoItem key={data.id} todo={data} setTodos={setTodos} />
+        <TodoItem key={data.id} todo={data} getTodoList={getTodoList} />
       ))}
     </ul>
   );
