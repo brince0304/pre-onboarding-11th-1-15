@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { ITodo } from 'interface/todoType';
 import { getTodos } from 'apis/todo';
 import TodoList from 'components/todos/TodoList';
+import TodoInput from 'components/todos/TodoInput';
 
 const Todo = () => {
   // eslint-disable-next-line no-unused-vars
@@ -41,7 +42,7 @@ const Todo = () => {
 
   return (
     <>
-      {/* <TodoInput getTodoList={getTodoList} /> */}
+       <TodoInput getTodoList={getTodoList} />
       <TodoList todos={todos} setTodos={setTodos} />
     </>
   );

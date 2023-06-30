@@ -31,7 +31,8 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
     ref: inputRef,
   } as IInputProps;
 
-  const handleDelete = async (todoItem: ITodo) => {
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>, todoItem: ITodo) => {
+    e.preventDefault();
     try {
       const resStatus = await deleteTodo(todoItem.id);
 
@@ -100,7 +101,7 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
             <Button size="medium" data-testid="modify-button" onClick={() => setIsOnEdit((prev) => !prev)}>
               수정
             </Button>
-            <Button size="medium" data-testid="delete-button" onClick={() => handleDelete(todo)}>
+            <Button size="medium" data-testid="delete-button" onClick={(e) => handleDelete(e,todo)}>
               삭제
             </Button>
           </>
