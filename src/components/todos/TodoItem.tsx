@@ -30,7 +30,6 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
   });
 
   const InputProps = {
-    value: updateInput,
     defaultValue: updateInput,
     onChange: updateInputOnChange,
     type: 'text',
