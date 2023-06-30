@@ -18,7 +18,6 @@ interface IHelperTextProps {
 
 interface IInputProps {
   width?: string;
-  fullWidth?: boolean;
   height?: string;
   fontSize?: string;
   color?: string;
@@ -44,7 +43,7 @@ export const HelperText = styled.p<IHelperTextProps>`
 `;
 
 export const Input = styled.input<IInputProps>`
-  width: ${(props: IInputProps) => (props.fullWidth ? '100%' : props.width ? props.width : 'auto')};
+  width: ${(props: IInputProps) => (props.width ? props.width : 'auto')};
   height: ${(props: IInputProps) => (props.height ? props.height : 'auto')};
   font-size: ${(props: IInputProps) => (props.fontSize ? props.fontSize : '14px')};
   color: ${(props: IInputProps) => (props.color ? props.color : '#121212')};
