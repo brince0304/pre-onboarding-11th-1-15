@@ -15,7 +15,12 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
   const [isOnEdit, setIsOnEdit] = useState<boolean>(false);
   const regex = /^.{1,}$/;
   const updateInputRef = useRef<HTMLInputElement>(null);
-  const { onChange: updateInputOnChange, value: updateInput, setValue: setUpdateInput, isValidated: isUpdateInputValidated} = useInput({
+  const {
+    onChange: updateInputOnChange,
+    value: updateInput,
+    setValue: setUpdateInput,
+    isValidated: isUpdateInputValidated,
+  } = useInput({
     regex,
     ref: updateInputRef,
     initialValue: todo.todo,
@@ -26,7 +31,7 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
 
   const InputProps = {
     value: updateInput,
-    defaultValue : updateInput,
+    defaultValue: updateInput,
     onChange: updateInputOnChange,
     type: 'text',
     dataTestId: 'modify-input',
@@ -52,15 +57,17 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
       id: String(todo.id),
       todo: updateInput,
       isCompleted: !todoCompleted,
-    }).then((res) => {
-      if (res) {
-        setTodoCompleted((prev) => !prev);
-        getTodoList();
-      }
-    }).catch((error) => {
-      throw new Error(error.response?.data.message || '정상적으로 수정되지 않았습니다.');
-    });
-  }
+    })
+      .then((res) => {
+        if (res) {
+          setTodoCompleted((prev) => !prev);
+          getTodoList();
+        }
+      })
+      .catch((error) => {
+        throw new Error(error.response?.data.message || '정상적으로 수정되지 않았습니다.');
+      });
+  };
 
   const handleUpdateTodoValue = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -68,15 +75,18 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
       id: String(todo.id),
       todo: updateInput,
       isCompleted: todoCompleted,
-    }).then((res) => {
-      if (res) {
-        setIsOnEdit((prev) => !prev);
-        getTodoList();
-        setUpdateInput(todo.todo);
-      }}).catch((error) => {
+    })
+      .then((res) => {
+        if (res) {
+          setIsOnEdit((prev) => !prev);
+          getTodoList();
+          setUpdateInput(todo.todo);
+        }
+      })
+      .catch((error) => {
         throw new Error(error.response?.data.message || '정상적으로 수정되지 않았습니다.');
       });
-    } 
+  };
 
   const handleCancel = () => {
     setIsOnEdit((prev) => !prev);
@@ -87,24 +97,30 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
     <S.Item>
       <S.Wrapper>
         <S.Label>
-          <Input
-            type="checkbox"
-            id={todo.id.toString()}
-            checked={todoCompleted}
-            onChange={handleUpdateTodoCompleted}
-          />
+          <Input type="checkbox" id={todo.id.toString()} checked={todoCompleted} onChange={handleUpdateTodoCompleted} />
           {!isOnEdit ? <span>{todo.todo}</span> : <Input {...InputProps} />}
         </S.Label>
         {!isOnEdit && (
           <>
-            <Button size="medium" data-testid="modify-button" name="수정" onClick={() => setIsOnEdit((prev) => !prev)}/>
-            <Button size="medium" data-testid="delete-button" name="삭제" onClick={(e) => handleDelete(e, todo)}/>
+            <Button
+              size="medium"
+              data-testid="modify-button"
+              name="수정"
+              onClick={() => setIsOnEdit((prev) => !prev)}
+            />
+            <Button size="medium" data-testid="delete-button" name="삭제" onClick={(e) => handleDelete(e, todo)} />
           </>
         )}
         {isOnEdit && (
           <>
-            <Button size="medium" data-testid="submit-button" onClick={handleUpdateTodoValue} name="제출" disabled={!isUpdateInputValidated}/>
-            <Button size="medium" data-testid="cancel-button" onClick={handleCancel} name="취소"/>
+            <Button
+              size="medium"
+              data-testid="submit-button"
+              onClick={handleUpdateTodoValue}
+              name="제출"
+              disabled={!isUpdateInputValidated}
+            />
+            <Button size="medium" data-testid="cancel-button" onClick={handleCancel} name="취소" />
           </>
         )}
       </S.Wrapper>

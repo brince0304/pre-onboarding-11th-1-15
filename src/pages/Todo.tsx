@@ -37,7 +37,7 @@ const Todo = () => {
   }, [navigate]);
 
   useEffect(() => {
-    if(!localStorage.getItem('token')) {
+    if (!localStorage.getItem('token')) {
       navigate('/signin');
       return;
     }
