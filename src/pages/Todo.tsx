@@ -49,7 +49,8 @@ const Todo = () => {
 
   useEffect(() => {
     getTodoList();
-  });
+    // eslint-disable-next-line.
+  }, []);
 
   return (
     <>
