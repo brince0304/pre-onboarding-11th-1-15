@@ -12,6 +12,13 @@ const Todo = () => {
   const navigate = useNavigate();
 
   const getTodoList: () => Promise<void> = async () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      navigate('/signin');
+      return;
+    }
+
     try {
       const newTodos = await getTodos();
       setTodos((prevTodos) => newTodos);
@@ -47,7 +54,7 @@ const Todo = () => {
   return (
     <>
       <TodoInput getTodoList={getTodoList} />
-      <TodoList todos={todos} setTodos={setTodos} />
+      <TodoList todos={todos} getTodoList={getTodoList} />
     </>
   );
 };
