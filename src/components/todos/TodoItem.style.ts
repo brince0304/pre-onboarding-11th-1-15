@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 export const Item = styled.li`
   width: 100%;
 `;
-export const Wrapper = styled.div`
+export const Wrapper = styled.form`
   display: flex;
   align-items: center;
   justify-content: space-between;
