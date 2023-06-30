@@ -49,7 +49,7 @@ const Todo = () => {
 
   useEffect(() => {
     getTodoList();
-  }, []);
+  }, [todos]);
 
   return (
     <>
