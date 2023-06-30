@@ -22,7 +22,7 @@ const AuthInput = (props: { mode: 'signIn' | 'signUp' }) => {
     isValidated: emailIsValidated,
     setIsValidated: setEmailIsValidated,
     setFocus: setEmailFocus,
-  } = useInput({
+  } = useInput<string>({
     ref: emailRef,
     regex: emailRegex,
   });
@@ -33,7 +33,7 @@ const AuthInput = (props: { mode: 'signIn' | 'signUp' }) => {
     value: password,
     isValidated: passwordIsValided,
     setIsValidated: setPasswordIsValidated,
-  } = useInput({
+  } = useInput<string>({
     ref: passwordRef,
     regex: passwordRegex,
   });
