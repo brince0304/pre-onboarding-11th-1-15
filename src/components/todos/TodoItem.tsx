@@ -1,4 +1,4 @@
-import React, { useState, useRef, FormEvent } from 'react';
+import React, { useState, useRef } from 'react';
 import { ITodo } from 'interface/todoType';
 import { updateTodo, deleteTodo } from 'apis/todo';
 import Button from 'components/common/Button';
@@ -52,15 +52,14 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
     }
   };
 
-  const handleUpdateTodoCompleted = (e: FormEvent<HTMLInputElement>) => {
+  const handleUpdateTodo = (updateInput: string, updateComplete: boolean) => {
     updateTodo({
       id: String(todo.id),
-      todo: todo.todo,
-      isCompleted: !todoCompleted,
+      todo: updateInput,
+      isCompleted: updateComplete,
     })
       .then((res) => {
         if (res) {
-          setTodoCompleted((prev) => !prev);
           getTodoList();
         }
       })
@@ -69,22 +68,16 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
       });
   };
 
-  const handleUpdateTodoValue = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCompleteTodo = () => {
+    const updateCompleted = !todoCompleted;
+    setTodoCompleted(updateCompleted);
+    handleUpdateTodo(todo.todo, updateCompleted);
+  };
+
+  const handleUpdateTodoText = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    updateTodo({
-      id: String(todo.id),
-      todo: updateInput,
-      isCompleted: todoCompleted,
-    })
-      .then((res) => {
-        if (res) {
-          setIsOnEdit((prev) => !prev);
-          getTodoList();
-        }
-      })
-      .catch((error) => {
-        throw new Error(error.response?.data.message || '정상적으로 수정되지 않았습니다.');
-      });
+    setIsOnEdit((prev) => !prev);
+    handleUpdateTodo(updateInput, todoCompleted);
   };
 
   const handleCancel = () => {
@@ -96,7 +89,7 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
     <S.Item>
       <S.Wrapper>
         <S.Label>
-          <Input type="checkbox" id={todo.id.toString()} checked={todoCompleted} onChange={handleUpdateTodoCompleted} />
+          <Input type="checkbox" id={todo.id.toString()} checked={todoCompleted} onChange={handleCompleteTodo} />
           {!isOnEdit ? <span>{todo.todo}</span> : <Input {...InputProps} />}
         </S.Label>
         {!isOnEdit && (
@@ -115,7 +108,7 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
             <Button
               size="medium"
               data-testid="submit-button"
-              onClick={handleUpdateTodoValue}
+              onClick={handleUpdateTodoText}
               name="제출"
               disabled={!isUpdateInputValidated}
             />
