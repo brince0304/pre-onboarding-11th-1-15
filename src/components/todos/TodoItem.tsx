@@ -89,7 +89,7 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
           {!isOnEdit ? <span>{todo.todo}</span> : <Input {...InputProps} />}
         </S.Label>
         {!isOnEdit && (
-          <>
+          <S.ButtonBox>
             <Button
               size="medium"
               data-testid="modify-button"
@@ -97,10 +97,10 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
               onClick={() => setIsOnEdit((prev) => !prev)}
             />
             <Button size="medium" data-testid="delete-button" name="삭제" onClick={(e) => handleDelete(e, todo)} />
-          </>
+          </S.ButtonBox>
         )}
         {isOnEdit && (
-          <>
+          <S.ButtonBox>
             <Button
               size="medium"
               data-testid="submit-button"
@@ -109,7 +109,7 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
               disabled={!isUpdateInputValidated}
             />
             <Button size="medium" data-testid="cancel-button" onClick={handleCancel} name="취소" />
-          </>
+          </S.ButtonBox>
         )}
       </S.Wrapper>
     </S.Item>
