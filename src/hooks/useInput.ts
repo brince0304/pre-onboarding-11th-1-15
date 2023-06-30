@@ -11,8 +11,8 @@ interface IUseInputReturn<T> {
 }
 
 const useInput = <T>(options: {
-  regex: RegExp;
-  ref: RefObject<HTMLInputElement>;
+  regex?: RegExp;
+  ref?: RefObject<HTMLInputElement>;
   initialValue?: T;
 }): IUseInputReturn<T> => {
   const { regex } = options || {};
@@ -20,7 +20,7 @@ const useInput = <T>(options: {
   const [isValidated, setIsValidated] = useState<boolean>(false);
 
   const validateValue = (value: T) => {
-    if (typeof value === 'string') {
+    if (typeof value === 'string' && regex) {
       const isValid = regex.test(value);
       setIsValidated(isValid);
     } else {

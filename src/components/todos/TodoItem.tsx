@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, FormEvent } from 'react';
 import { ITodo } from 'interface/todoType';
 import { updateTodo, deleteTodo } from 'apis/todo';
 import Button from 'components/common/Button';
@@ -8,112 +8,103 @@ import Input, { IInputProps } from '../common/Input';
 
 interface TodoItemProps {
   todo: ITodo;
-  setTodos: React.Dispatch<React.SetStateAction<ITodo[]>>;
+  getTodoList: () => Promise<void>;
 }
 
-const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
+const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
   const [isOnEdit, setIsOnEdit] = useState<boolean>(false);
-  const [editTodoText, setEditTodoText] = useState<string>(todo.todo);
-
   const regex = /^.{1,}$/;
-  const inputRef = useRef<HTMLInputElement>(null);
-  const { onChange, value, setValue, isValidated, setIsValidated, setFocus } = useInput({
+  const updateInputRef = useRef<HTMLInputElement>(null);
+  const { onChange: updateInputOnChange, value: updateInput, setValue: setUpdateInput, isValidated: isUpdateInputValidated} = useInput({
     regex,
-    ref: inputRef,
-    initialValue: editTodoText,
+    ref: updateInputRef,
+    initialValue: todo.todo,
+  });
+  const { value: todoCompleted, setValue: setTodoCompleted } = useInput({
+    initialValue: todo.isCompleted,
   });
 
   const InputProps = {
-    value,
-    onChange,
+    value: updateInput,
+    defaultValue : updateInput,
+    onChange: updateInputOnChange,
     type: 'text',
     dataTestId: 'modify-input',
-    ref: inputRef,
+    ref: updateInputRef,
+    error: !isUpdateInputValidated && updateInput !== todo.todo,
+    errorText: '1글자 이상 입력해주세요.',
   } as IInputProps;
 
   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>, todoItem: ITodo) => {
     e.preventDefault();
     try {
       const resStatus = await deleteTodo(todoItem.id);
-
       if (resStatus) {
-        setTodos((todos) => todos?.filter((todo) => todo.id !== todoItem.id));
+        getTodoList();
       }
     } catch (error: any) {
       throw new Error(error.response?.data.message || '정상적으로 삭제되지 않았습니다.');
     }
   };
 
-  const handleUpdate = async (
-    e: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLButtonElement>,
-    todoItem: ITodo,
-  ) => {
+  const handleUpdateTodoCompleted = (e: FormEvent<HTMLInputElement>) => {
+    updateTodo({
+      id: String(todo.id),
+      todo: updateInput,
+      isCompleted: !todoCompleted,
+    }).then((res) => {
+      if (res) {
+        setTodoCompleted((prev) => !prev);
+        getTodoList();
+      }
+    }).catch((error) => {
+      throw new Error(error.response?.data.message || '정상적으로 수정되지 않았습니다.');
+    });
+  }
+
+  const handleUpdateTodoValue = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    setFocus();
-    // input text value가 비었는지 먼저 확인
-    if (isValidated) {
-      // 비어있지 않은 경우라도 기존과 같은 텍스트라면 붋필요한 api 요청않도록 취소하고 얼리 리턴으로 종료
-      if (editTodoText === todoItem.todo) {
+    updateTodo({
+      id: String(todo.id),
+      todo: updateInput,
+      isCompleted: todoCompleted,
+    }).then((res) => {
+      if (res) {
         setIsOnEdit((prev) => !prev);
-        return;
-      }
-
-      const editedTodoItem = {
-        id: todoItem.id.toString(),
-        todo: editTodoText,
-        isCompleted: todoItem.isCompleted,
-      };
-
-      try {
-        const resUpdatedTodo = await updateTodo(editedTodoItem);
-        setTodos((todos) => todos.map((todo) => (todo.id === todoItem.id ? resUpdatedTodo : todo)));
-        setValue('');
-      } catch (error: any) {
-        setIsValidated(false);
-        setFocus();
-        throw new Error(error.response?.data.message || '업데이트에 에러가 발생했습니다.');
-      }
-    } else {
-      return;
-    }
-  };
+        getTodoList();
+        setUpdateInput(todo.todo);
+      }}).catch((error) => {
+        throw new Error(error.response?.data.message || '정상적으로 수정되지 않았습니다.');
+      });
+    } 
 
   const handleCancel = () => {
     setIsOnEdit((prev) => !prev);
-    setEditTodoText(todo.todo);
+    setUpdateInput(todo.todo);
   };
 
   return (
     <S.Item>
       <S.Wrapper>
         <S.Label>
-          <input
+          <Input
             type="checkbox"
             id={todo.id.toString()}
-            checked={todo.isCompleted}
-            onChange={(e) => handleUpdate(e, todo)}
+            checked={todoCompleted}
+            onChange={handleUpdateTodoCompleted}
           />
           {!isOnEdit ? <span>{todo.todo}</span> : <Input {...InputProps} />}
         </S.Label>
         {!isOnEdit && (
           <>
-            <Button size="medium" data-testid="modify-button" onClick={() => setIsOnEdit((prev) => !prev)}>
-              수정
-            </Button>
-            <Button size="medium" data-testid="delete-button" onClick={(e) => handleDelete(e, todo)}>
-              삭제
-            </Button>
+            <Button size="medium" data-testid="modify-button" name="수정" onClick={() => setIsOnEdit((prev) => !prev)}/>
+            <Button size="medium" data-testid="delete-button" name="삭제" onClick={(e) => handleDelete(e, todo)}/>
           </>
         )}
         {isOnEdit && (
           <>
-            <Button size="medium" data-testid="submit-button" onClick={(e) => handleUpdate(e, todo)}>
-              제출
-            </Button>
-            <Button size="medium" data-testid="cancel-button" onClick={handleCancel}>
-              취소
-            </Button>
+            <Button size="medium" data-testid="submit-button" onClick={handleUpdateTodoValue} name="제출" disabled={!isUpdateInputValidated}/>
+            <Button size="medium" data-testid="cancel-button" onClick={handleCancel} name="취소"/>
           </>
         )}
       </S.Wrapper>
