@@ -12,8 +12,19 @@ const Todo = () => {
   const navigate = useNavigate();
 
   const getTodoList: () => Promise<void> = async () => {
-    const data = await getTodos();
-    setTodos(data);
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      navigate('/signin');
+      return;
+    }
+
+    try {
+      const newTodos = await getTodos();
+      setTodos((prevTodos) => newTodos);
+    } catch (error: any) {
+      throw new Error(error.response?.data.message || '할일 목록을 정상적으로 가져오지 못했습니다.');
+    }
   };
 
   // todo 페이지 진입 상태에서 토큰이 소실될 경우 브라우저 객체에서 인식하여 바로 리다이렉트 처리
@@ -37,12 +48,8 @@ const Todo = () => {
   }, [navigate]);
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      navigate('/signin');
-      return;
-    }
     getTodoList();
-  }, [navigate]);
+  }, []);
 
   return (
     <>

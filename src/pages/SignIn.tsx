@@ -1,5 +1,5 @@
 import AuthForm from 'components/auths/AuthForm';
-import * as S from '../components/common/Auth.style';
+import * as S from './Auth.style';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
