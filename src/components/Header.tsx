@@ -15,9 +15,7 @@ const Header = () => {
         {RootRoutes.map((r: IRouterProps) => {
           return (
             <S.Li key={r.name}>
-              <NavLink to={r.path}>
-                {r.name}
-              </NavLink>
+              <NavLink to={r.path}>{r.name}</NavLink>
             </S.Li>
           );
         })}

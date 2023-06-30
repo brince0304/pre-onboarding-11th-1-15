@@ -12,15 +12,7 @@ export interface IInputProps extends Omit<HTMLProps<HTMLInputElement>, 'ref'> {
 
 //TODO: 부모 컴포넌트에서 ref 받아오도록 구현해야함
 const Input = forwardRef((props: IInputProps, ref: ForwardedRef<HTMLInputElement>) => {
-  const { 
-    helperText,
-    error,
-    errorText,
-    dataTestId,
-    width,
-    height,
-    ... inputProps } = props;
-
+  const { helperText, error, errorText, dataTestId, width, height, ...inputProps } = props;
 
   return (
     <S.InputWrap>
