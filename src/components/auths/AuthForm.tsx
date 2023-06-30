@@ -138,7 +138,7 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
       <Input
         value={email}
         onChange={emailOnChange}
-        data-testid="email-input"
+        dataTestId="email-input"
         name="email"
         error={emailInputError}
         errorText={emailErrorText}
@@ -147,7 +147,7 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
       <Input
         value={password}
         onChange={passwordOnChange}
-        data-testid="password-input"
+        dataTestId="password-input"
         name="password"
         error={passwordInputError}
         errorText={passwordErrorText}
