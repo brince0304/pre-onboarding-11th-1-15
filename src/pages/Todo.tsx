@@ -6,7 +6,6 @@ import TodoList from 'components/todos/TodoList';
 import TodoInput from 'components/todos/TodoInput';
 
 const Todo = () => {
-  // eslint-disable-next-line no-unused-vars
   const [todos, setTodos] = useState<ITodo[]>([]);
 
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ const Todo = () => {
       const newTodos = await getTodos();
       setTodos((prevTodos) => newTodos);
     } catch (error: any) {
-      throw new Error(error.response?.data.message || '할일 목록을 정상적으로 가져오지 못했습니다.');
+      alert(error.response?.data.message || '할일 목록을 정상적으로 가져오지 못했습니다.');
     }
   };
 
@@ -49,7 +48,7 @@ const Todo = () => {
 
   useEffect(() => {
     getTodoList();
-    // eslint-disable-next-line.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
