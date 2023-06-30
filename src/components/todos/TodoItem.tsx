@@ -55,7 +55,7 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
   const handleUpdateTodoCompleted = (e: FormEvent<HTMLInputElement>) => {
     updateTodo({
       id: String(todo.id),
-      todo: updateInput,
+      todo: todo.todo,
       isCompleted: !todoCompleted,
     })
       .then((res) => {
