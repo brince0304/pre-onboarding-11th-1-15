@@ -41,17 +41,13 @@ const Todo = () => {
   }, [navigate]);
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      navigate('/signin');
-      return;
-    }
     getTodoList();
-  }, [navigate]);
+  }, []);
 
   return (
     <>
       <TodoInput getTodoList={getTodoList} />
-      <TodoList todos={todos} getTodoList={getTodoList} />
+      <TodoList todos={todos} setTodos={setTodos} />
     </>
   );
 };
