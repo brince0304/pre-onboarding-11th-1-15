@@ -31,7 +31,6 @@ export const InputWrap = styled.div<IInputWrapperProps>`
   align-items: ${(props: IInputWrapperProps) => (props.alignItems ? props.alignItems : 'center')};
   width: ${(props: IInputWrapperProps) => (props.width ? props.width : 'auto')};
   height: ${(props: IInputWrapperProps) => (props.height ? props.height : 'auto')};
-  gap: 5px;
 `;
 
 //Input 컴포넌트 아래에 출력될 헬퍼 텍스트 스타일링

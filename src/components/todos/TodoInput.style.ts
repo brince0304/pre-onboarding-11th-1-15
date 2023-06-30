@@ -8,4 +8,5 @@ export const TodoInputForm = styled.form`
   width: 100%;
   height: 100%;
   gap: 10px;
+  margin-top: 10px;
 `;

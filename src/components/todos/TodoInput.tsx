@@ -59,7 +59,7 @@ const TodoInput = (props: { getTodoList: () => {} }) => {
 
   return (
     <S.TodoInputForm onSubmit={onSubmit}>
-      <Input {...InputProps} ref={inputRef} />
+      <Input {...InputProps} ref={inputRef} width="524px" height="34px" />
       <Button size={'medium'} name={'추가'} data-testid="new-todo-add-button" type="submit" disabled={!isValidated} />
     </S.TodoInputForm>
   );
