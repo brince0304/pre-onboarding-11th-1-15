@@ -8,7 +8,7 @@
 |:---|:---|
 |[백석현(팀장)](https://github.com/brince0304)|Todo, Auth 컴포넌트 구현 및 리팩토링 참여 / common Input 컴포넌트 구현 / useInput 훅 구현 / 리드미 작성|
 |[장은정(팀원)](https://github.com/eunjeong90)|헤더 컴포넌트, 라우팅 구현 / AuthForm , TodoForm 구현 / 리드미 작성 & 수정 / 팀 프로젝트 진행상황 정리 및 수정|
-|[김선미(팀원)](https://github.com/seon-mikim)|common Button 컴포넌트 구현 및 전체적인 스타일링 / 기능 구현에 필요한 라이브러리 추천 및 실무 개발 환경 공유|
+|[김선미(팀원)](https://github.com/seon-mikim)|참여안함|
 |[김정구(팀원)](https://github.com/JulyK9)|Todo 페이지, TodoItem 컴포넌트 구현 및 리팩토링 |
 |[천진아(팀원)](https://github.com/totter15)|API 함수, 인터셉터 구현 / 전체적인 page 구성,스타일링 및 코드 리팩토링 / 파일트리 건의 및 정의|
 |[윤선용(팀원)](https://github.com/eastsunyong)|AuthInput, AuthForm 컴포넌트 구현 및 리팩토링 / 프로젝트 배포|
