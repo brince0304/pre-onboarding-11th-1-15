@@ -14,8 +14,8 @@ const Header = () => {
       <S.Ul>
         {RootRoutes.map((r: IRouterProps) => {
           return (
-            <S.Li>
-              <NavLink to={r.path} key={r.name}>
+            <S.Li key={r.name}>
+              <NavLink to={r.path}>
                 {r.name}
               </NavLink>
             </S.Li>
