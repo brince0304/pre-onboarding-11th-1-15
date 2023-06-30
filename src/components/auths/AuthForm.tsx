@@ -6,7 +6,7 @@ interface IAuthForm extends HTMLProps<HTMLFormElement> {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
-const AuthForm = ({onSubmit, ...props} : IAuthForm) => {
+const AuthForm = ({ onSubmit, ...props }: IAuthForm) => {
   return (
     <form onSubmit={onSubmit} {...props}>
       <AuthInput />
