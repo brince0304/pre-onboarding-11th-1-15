@@ -7,19 +7,18 @@ interface IRouterProps {
   [key: string]: string;
 }
 const Header = () => {
-  const RootRoutes = JSON.parse(JSON.stringify(Router.routes[0].children));
+  const RootRoutes = JSON.parse(JSON.stringify(Router.routes));
+
   return (
     <S.Header>
       <S.Ul>
         {RootRoutes.map((r: IRouterProps) => {
           return (
-            <>
-              <li>
-                <NavLink to={r.path} key={r.name}>
-                  {r.name}
-                </NavLink>
-              </li>
-            </>
+            <S.Li>
+              <NavLink to={r.path} key={r.name}>
+                {r.name}
+              </NavLink>
+            </S.Li>
           );
         })}
       </S.Ul>
