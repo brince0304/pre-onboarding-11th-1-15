@@ -101,7 +101,7 @@ const TodoItem = ({ todo, setTodos }: TodoItemProps) => {
             <Button size="medium" data-testid="modify-button" onClick={() => setIsOnEdit((prev) => !prev)}>
               수정
             </Button>
-            <Button size="medium" data-testid="delete-button" onClick={(e) => handleDelete(e,todo)}>
+            <Button size="medium" data-testid="delete-button" onClick={(e) => handleDelete(e, todo)}>
               삭제
             </Button>
           </>

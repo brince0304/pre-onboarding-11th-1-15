@@ -5,7 +5,7 @@ import * as S from './TodoInput.style';
 import Button from '../common/Button';
 import { createTodo } from '../../apis/todo';
 
-const TodoInput = (props:{getTodoList:()=>{}}) => {
+const TodoInput = (props: { getTodoList: () => {} }) => {
   const regex = /^.{1,}$/;
   const inputRef = useRef<HTMLInputElement>(null);
   const { onChange, value, setValue, isValidated, setIsValidated, setFocus } = useInput<string>({

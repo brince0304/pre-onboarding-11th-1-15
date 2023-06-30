@@ -42,7 +42,7 @@ const Todo = () => {
 
   return (
     <>
-       <TodoInput getTodoList={getTodoList} />
+      <TodoInput getTodoList={getTodoList} />
       <TodoList todos={todos} setTodos={setTodos} />
     </>
   );
