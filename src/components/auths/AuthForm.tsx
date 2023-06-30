@@ -93,7 +93,7 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
       signUp(user)
         .then((res) => {
           if (res) {
-            // sign-in 으로 navigate
+            navigate('/signin');
             setIsLoading(false);
           }
         })
