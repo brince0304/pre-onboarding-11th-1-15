@@ -1,13 +1,8 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
-import Header from 'components/Header';
+import { RouterProvider } from 'react-router-dom';
+import Router from 'routers/Router';
 
 function App() {
-  return (
-    <div>
-      <Header />
-      <Outlet />
-    </div>
-  );
+  return <RouterProvider router={Router} />;
 }
 export default App;
