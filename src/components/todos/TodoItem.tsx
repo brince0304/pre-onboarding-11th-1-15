@@ -47,24 +47,21 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
         getTodoList();
       }
     } catch (error: any) {
-      throw new Error(error.response?.data.message || '정상적으로 삭제되지 않았습니다.');
+      alert(error.response?.data.message || '정상적으로 삭제되지 않았습니다.');
     }
   };
 
-  const handleUpdateTodo = (updateInput: string, updateComplete: boolean) => {
-    updateTodo({
+  const handleUpdateTodo = async (updateInput: string, updateComplete: boolean) => {
+    await updateTodo({
       id: String(todo.id),
       todo: updateInput,
       isCompleted: updateComplete,
-    })
-      .then((res) => {
-        if (res) {
-          getTodoList();
-        }
-      })
-      .catch((error) => {
-        throw new Error(error.response?.data.message || '정상적으로 수정되지 않았습니다.');
-      });
+    });
+    try {
+      getTodoList();
+    } catch (error: any) {
+      alert(error.response?.data.message || '정상적으로 업데이트되지 않았습니다.');
+    }
   };
 
   const handleCompleteTodo = () => {
