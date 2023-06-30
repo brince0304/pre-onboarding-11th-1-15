@@ -10,7 +10,6 @@ interface IUser {
 }
 
 const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
-
   const [isEmailError, setIsEmailError] = useState<boolean>(false);
   const [emailErrorText, setEmailErrorText] = useState<string>('');
   const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
@@ -59,12 +58,12 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
     setIsPasswordError(false);
   }, [email, password]);
 
-  useEffect(()=>{
-    if(!isEmailError || !isPasswordError){
-    setEmailErrorText(emailRegexNotMatchErrorText);
-    setPasswordErrorText(passwordRegexNotMatchErrorText);
+  useEffect(() => {
+    if (!isEmailError || !isPasswordError) {
+      setEmailErrorText(emailRegexNotMatchErrorText);
+      setPasswordErrorText(passwordRegexNotMatchErrorText);
     }
-  },[isEmailError,isPasswordError])
+  }, [isEmailError, isPasswordError]);
 
   const authHandler = (mode: string, user: IUser) => {
     setIsLoading(true);
@@ -126,8 +125,8 @@ const AuthForm = (props: { mode: 'signIn' | 'signUp' }) => {
     setIsPasswordError(true);
     setEmailIsValidated(true);
     setPasswordIsValidated(true);
-    setEmailErrorText(emailAlreadyExistErrorText)
-    setPasswordErrorText('')
+    setEmailErrorText(emailAlreadyExistErrorText);
+    setPasswordErrorText('');
     setEmailFocus();
   };
 

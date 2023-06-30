@@ -31,7 +31,8 @@ const useInput = <T>(options: {
   const setFocus = () => {
     if (options.ref) {
       options.ref.current?.focus();
-    }  };
+    }
+  };
 
   const setBlur = () => {
     if (options.ref) {
