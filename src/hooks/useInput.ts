@@ -29,11 +29,14 @@ const useInput = <T>(options: {
   };
 
   const setFocus = () => {
-    options.ref?.current?.focus();
-  };
+    if (options.ref) {
+      options.ref.current?.focus();
+    }  };
 
   const setBlur = () => {
-    options.ref?.current?.blur();
+    if (options.ref) {
+      options.ref.current?.blur();
+    }
   };
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
