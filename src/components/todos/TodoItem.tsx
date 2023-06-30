@@ -80,7 +80,6 @@ const TodoItem = ({ todo, getTodoList }: TodoItemProps) => {
         if (res) {
           setIsOnEdit((prev) => !prev);
           getTodoList();
-          setUpdateInput(todo.todo);
         }
       })
       .catch((error) => {
